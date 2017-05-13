@@ -34,11 +34,14 @@ OUT_DIR = os.path.join(argv[1], "m3u")
 if not os.path.exists(OUT_DIR):
     os.makedirs(OUT_DIR)
 
-print(OUT_DIR)
+print("Reading files from: " + argv[1])
+print("Will write m3u files to: " + OUT_DIR)
 
 for file in os.listdir(argv[1]):
     if file.endswith("cue"):
         files.append(file)
+
+print("Found %d files. Starting m3u generation..." % len(files))
 
 files.sort()
 gameFilesBuffer = {}
@@ -52,7 +55,6 @@ for i in range(1, len(files)):
     else:
         gameFilesBuffer[gameName] = [file]
 
-
 for gameName, fileNames in gameFilesBuffer.items():
     targetFile = open(os.path.join(OUT_DIR, gameName + ".m3u"), 'w+')
 
@@ -60,3 +62,5 @@ for gameName, fileNames in gameFilesBuffer.items():
         targetFile.write("..\\" + fileName)
         targetFile.write("\n")
 
+print("Done!")
+print("Wrote %d m3u files in total" % len(gameFilesBuffer))
